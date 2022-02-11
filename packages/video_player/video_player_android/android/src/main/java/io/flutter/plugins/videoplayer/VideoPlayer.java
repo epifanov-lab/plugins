@@ -232,13 +232,13 @@ final class VideoPlayer {
             }
           }
 
-          @Override
+          /*@Override
           public void onPlayerError(final ExoPlaybackException error) {
             setBuffering(false);
             if (eventSink != null) {
               eventSink.error("VideoError", "Video player had error " + error, null);
             }
-          }
+          }*/
         });
   }
 
