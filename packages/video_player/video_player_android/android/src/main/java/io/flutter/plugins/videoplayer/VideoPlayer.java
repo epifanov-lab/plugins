@@ -132,17 +132,18 @@ final class VideoPlayer {
           break;
       }
     }
+    MediaItem mediaItem;
+    System.out.println("@@@@@@@@@@@@@@@ VAST TAG: " + vastTag);
+    if (vastTag == null) {
+      mediaItem = MediaItem.fromUri(uri);
+    } else {
+      mediaItem = new MediaItem.Builder()
+        .setUri(uri)
+        .setAdTagUri(vastTag)
+        .build();
+    }
     switch (type) {
       case C.TYPE_SS:
-        MediaItem mediaItem;
-        if (vastTag == null) {
-          mediaItem = MediaItem.fromUri(uri);
-        } else {
-          mediaItem = new MediaItem.Builder()
-            .setUri(uri)
-            .setAdTagUri(vastTag)
-            .build();
-        }
         return new SsMediaSource.Factory(
                 new DefaultSsChunkSource.Factory(mediaDataSourceFactory),
                 new DefaultDataSourceFactory(context, null, mediaDataSourceFactory))
@@ -151,13 +152,13 @@ final class VideoPlayer {
         return new DashMediaSource.Factory(
                 new DefaultDashChunkSource.Factory(mediaDataSourceFactory),
                 new DefaultDataSourceFactory(context, null, mediaDataSourceFactory))
-            .createMediaSource(MediaItem.fromUri(uri));
+            .createMediaSource(mediaItem);
       case C.TYPE_HLS:
         return new HlsMediaSource.Factory(mediaDataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(uri));
+            .createMediaSource(mediaItem);
       case C.TYPE_OTHER:
         return new ProgressiveMediaSource.Factory(mediaDataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(uri));
+            .createMediaSource(mediaItem);
       default:
         {
           throw new IllegalStateException("Unsupported type: " + type);
