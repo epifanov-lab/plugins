@@ -140,7 +140,8 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
               "asset:///" + assetLookupKey,
               null,
               null,
-              options);
+              options,
+              arg.getVastTag());
     } else {
       @SuppressWarnings("unchecked")
       Map<String, String> httpHeaders = arg.getHttpHeaders();
@@ -152,7 +153,8 @@ public class VideoPlayerPlugin implements FlutterPlugin, VideoPlayerApi {
               arg.getUri(),
               arg.getFormatHint(),
               httpHeaders,
-              options);
+              options,
+              arg.getVastTag());
     }
     videoPlayers.put(handle.id(), player);
 

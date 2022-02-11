@@ -87,6 +87,16 @@ public class Messages {
       this.formatHint = setterArg;
     }
 
+    private String vastTag;
+
+    public String getVastTag() {
+      return vastTag;
+    }
+
+    public void setVastTag(String setterArg) {
+      this.vastTag = setterArg;
+    }
+
     private HashMap httpHeaders;
 
     public HashMap getHttpHeaders() {
@@ -104,6 +114,7 @@ public class Messages {
       toMapResult.put("packageName", packageName);
       toMapResult.put("formatHint", formatHint);
       toMapResult.put("httpHeaders", httpHeaders);
+      toMapResult.put("vastTag", vastTag);
       return toMapResult;
     }
 
@@ -117,6 +128,8 @@ public class Messages {
       fromMapResult.packageName = (String) packageName;
       Object formatHint = map.get("formatHint");
       fromMapResult.formatHint = (String) formatHint;
+      Object vastTag = map.get("vastTag");
+      fromMapResult.vastTag = (String) vastTag;
       Object httpHeaders = map.get("httpHeaders");
       fromMapResult.httpHeaders = (HashMap) httpHeaders;
       return fromMapResult;

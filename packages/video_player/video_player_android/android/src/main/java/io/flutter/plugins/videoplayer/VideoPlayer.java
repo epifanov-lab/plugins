@@ -58,6 +58,8 @@ final class VideoPlayer {
 
   private final VideoPlayerOptions options;
 
+  private final String vastTag;
+
   VideoPlayer(
       Context context,
       EventChannel eventChannel,
@@ -65,10 +67,12 @@ final class VideoPlayer {
       String dataSource,
       String formatHint,
       Map<String, String> httpHeaders,
-      VideoPlayerOptions options) {
+      VideoPlayerOptions options,
+      String vastTag) {
     this.eventChannel = eventChannel;
     this.textureEntry = textureEntry;
     this.options = options;
+    this.vastTag = vastTag;
 
     exoPlayer = new SimpleExoPlayer.Builder(context).build();
 
@@ -89,7 +93,7 @@ final class VideoPlayer {
       dataSourceFactory = new DefaultDataSourceFactory(context, "ExoPlayer");
     }
 
-    MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, context);
+    MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, vastTag, context);
     exoPlayer.setMediaSource(mediaSource);
     exoPlayer.prepare();
 
@@ -105,7 +109,7 @@ final class VideoPlayer {
   }
 
   private MediaSource buildMediaSource(
-      Uri uri, DataSource.Factory mediaDataSourceFactory, String formatHint, Context context) {
+      Uri uri, DataSource.Factory mediaDataSourceFactory, String formatHint, String vastTag, Context context) {
     int type;
     if (formatHint == null) {
       type = Util.inferContentType(uri.getLastPathSegment());
@@ -130,10 +134,19 @@ final class VideoPlayer {
     }
     switch (type) {
       case C.TYPE_SS:
+        MediaItem mediaItem;
+        if (vastTag == null) {
+          mediaItem = MediaItem.fromUri(uri);
+        } else {
+          mediaItem = new MediaItem.Builder()
+            .setUri(uri)
+            .setAdTagUri(vastTag)
+            .build();
+        }
         return new SsMediaSource.Factory(
                 new DefaultSsChunkSource.Factory(mediaDataSourceFactory),
                 new DefaultDataSourceFactory(context, null, mediaDataSourceFactory))
-            .createMediaSource(MediaItem.fromUri(uri));
+            .createMediaSource(mediaItem);
       case C.TYPE_DASH:
         return new DashMediaSource.Factory(
                 new DefaultDashChunkSource.Factory(mediaDataSourceFactory),
