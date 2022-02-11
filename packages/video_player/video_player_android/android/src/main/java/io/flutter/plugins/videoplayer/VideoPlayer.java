@@ -134,6 +134,7 @@ final class VideoPlayer {
     }
     MediaItem mediaItem;
     System.out.println("@@@@@@@@@@@@@@@ VAST TAG: " + vastTag);
+    System.out.println("@@@@@@@@@@@@@@@ TYPE: " + type);
     if (vastTag == null) {
       mediaItem = MediaItem.fromUri(uri);
     } else {
