@@ -210,6 +210,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
       : dataSourceType = DataSourceType.asset,
         formatHint = null,
         httpHeaders = const {},
+        vastTag = null,
         super(VideoPlayerValue(duration: Duration.zero));
 
   /// Constructs a [VideoPlayerController] playing a video from obtained from
@@ -229,6 +230,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.httpHeaders = const {},
   })  : dataSourceType = DataSourceType.network,
         package = null,
+        vastTag = null,
         super(VideoPlayerValue(duration: Duration.zero));
 
   /// Constructs a [VideoPlayerController] playing a video from a file.
@@ -242,6 +244,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
         package = null,
         formatHint = null,
         httpHeaders = const {},
+        vastTag = null,
         super(VideoPlayerValue(duration: Duration.zero));
 
   /// Constructs a [VideoPlayerController] playing a video from a contentUri.
@@ -254,6 +257,23 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
             'VideoPlayerController.contentUri is only supported on Android.'),
         dataSource = contentUri.toString(),
         dataSourceType = DataSourceType.contentUri,
+        package = null,
+        formatHint = null,
+        httpHeaders = const {},
+        vastTag = null,
+        super(VideoPlayerValue(duration: Duration.zero));
+
+  /// Constructs a [VideoPlayerController] playing a video from a contentUri with IMA VAST enabled.
+  ///
+  /// This will load the video from the input content-URI.
+  /// This is supported on Android only.
+  VideoPlayerController.contentUriWithVast(Uri contentUri, String vastTag,
+      {this.closedCaptionFile, this.videoPlayerOptions})
+      : assert(defaultTargetPlatform == TargetPlatform.android,
+  'VideoPlayerController.contentUri is only supported on Android.'),
+        dataSource = contentUri.toString(),
+        dataSourceType = DataSourceType.contentUri,
+        vastTag = vastTag,
         package = null,
         formatHint = null,
         httpHeaders = const {},
@@ -281,6 +301,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
 
   /// Only set for [asset] videos. The package that the asset was loaded from.
   final String? package;
+
+  /// VAST for IMA ads
+  final String? vastTag;
 
   /// Optional field to specify a file containing the closed
   /// captioning.
