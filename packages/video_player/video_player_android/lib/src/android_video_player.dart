@@ -50,6 +50,7 @@ class AndroidVideoPlayer extends VideoPlayerPlatform {
         break;
       case DataSourceType.contentUri:
         message.uri = dataSource.uri;
+        message.vastTag = dataSource.vastTag;
         break;
     }
 

@@ -31,6 +31,7 @@ class CreateMessage {
   String? uri;
   String? packageName;
   String? formatHint;
+  String? vastTag;
   Map<Object?, Object?>? httpHeaders;
 
   Object encode() {
@@ -40,6 +41,7 @@ class CreateMessage {
     pigeonMap['packageName'] = packageName;
     pigeonMap['formatHint'] = formatHint;
     pigeonMap['httpHeaders'] = httpHeaders;
+    pigeonMap['vastTag'] = vastTag;
     return pigeonMap;
   }
 
@@ -50,6 +52,7 @@ class CreateMessage {
       ..uri = pigeonMap['uri'] as String?
       ..packageName = pigeonMap['packageName'] as String?
       ..formatHint = pigeonMap['formatHint'] as String?
+      ..vastTag = pigeonMap['vastTag'] as String?
       ..httpHeaders = pigeonMap['httpHeaders'] as Map<Object?, Object?>?;
   }
 }
