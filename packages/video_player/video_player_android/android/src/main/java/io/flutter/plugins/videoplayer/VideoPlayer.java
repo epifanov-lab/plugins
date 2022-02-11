@@ -10,6 +10,7 @@ import static com.google.android.exoplayer2.Player.REPEAT_MODE_OFF;
 import android.content.Context;
 import android.net.Uri;
 import android.view.Surface;
+
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.Format;
@@ -19,7 +20,10 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Player.Listener;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.audio.AudioAttributes;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MediaSourceFactory;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource;
@@ -30,13 +34,15 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.util.Util;
-import io.flutter.plugin.common.EventChannel;
-import io.flutter.view.TextureRegistry;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.flutter.plugin.common.EventChannel;
+import io.flutter.view.TextureRegistry;
 
 final class VideoPlayer {
   private static final String FORMAT_SS = "ss";
@@ -45,6 +51,7 @@ final class VideoPlayer {
   private static final String FORMAT_OTHER = "other";
 
   private SimpleExoPlayer exoPlayer;
+  private ImaAdsLoader adsLoader;
 
   private Surface surface;
 
@@ -74,7 +81,7 @@ final class VideoPlayer {
     this.options = options;
     this.vastTag = vastTag;
 
-    exoPlayer = new SimpleExoPlayer.Builder(context).build();
+    adsLoader = new ImaAdsLoader.Builder(context).build();
 
     Uri uri = Uri.parse(dataSource);
 
@@ -92,6 +99,14 @@ final class VideoPlayer {
     } else {
       dataSourceFactory = new DefaultDataSourceFactory(context, "ExoPlayer");
     }
+
+     /*MediaSourceFactory mediaSourceFactory =
+      new DefaultMediaSourceFactory(dataSourceFactory)
+        .setAdsLoaderProvider(unusedAdTagUri -> adsLoader)
+        .setAdViewProvider(playerView);*/
+
+    exoPlayer = new SimpleExoPlayer.Builder(context)
+      .build();
 
     MediaSource mediaSource = buildMediaSource(uri, dataSourceFactory, formatHint, vastTag, context);
     exoPlayer.setMediaSource(mediaSource);
@@ -133,7 +148,7 @@ final class VideoPlayer {
       }
     }
     MediaItem mediaItem;
-    System.out.println("@@@@@@@@@@@@@@@ VAST TAG: " + vastTag);
+    System.out.println("@@@@@@@@@@@@@@@ VAST TAG: " + vastTag + " type" + type);
     if (vastTag == null) {
       mediaItem = MediaItem.fromUri(uri);
     } else {
@@ -312,6 +327,9 @@ final class VideoPlayer {
     }
     if (exoPlayer != null) {
       exoPlayer.release();
+    }
+    if (adsLoader != null) {
+      adsLoader.release();
     }
   }
 }
