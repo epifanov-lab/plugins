@@ -128,6 +128,7 @@ class DataSource {
     this.asset,
     this.package,
     this.httpHeaders = const <String, String>{},
+    this.vastTag,
   });
 
   /// The way in which the video was originally loaded.
@@ -157,6 +158,9 @@ class DataSource {
   /// The package that the asset was loaded from. Only set for
   /// [DataSourceType.asset] videos.
   final String? package;
+
+  /// Used for IMA ads
+  final String? vastTag;
 }
 
 /// The way in which the video was originally loaded.
