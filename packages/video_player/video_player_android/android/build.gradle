@@ -49,6 +49,9 @@ android {
         implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.14.1'
         implementation 'com.google.android.exoplayer:exoplayer-ui:2.14.1'
         implementation 'com.google.android.exoplayer:extension-ima:2.14.1'
+
+        implementation 'androidx.multidex:multidex:2.0.1'
+
         testImplementation 'junit:junit:4.12'
         testImplementation 'org.mockito:mockito-inline:3.9.0'
     }
