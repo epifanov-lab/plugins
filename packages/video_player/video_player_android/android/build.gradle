@@ -42,7 +42,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    packagingOptions {
+    /*packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
@@ -51,14 +51,14 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
-    }
+    }*/
 
     dependencies {
         //implementation 'com.google.android.exoplayer:exoplayer-hls:2.14.1'
         //implementation 'com.google.android.exoplayer:exoplayer-dash:2.14.1'
         //implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.14.1'
         implementation 'com.google.android.exoplayer:exoplayer-core:2.14.1'
-        implementation 'com.google.android.exoplayer:exoplayer-ui:2.14.1'
+        //implementation 'com.google.android.exoplayer:exoplayer-ui:2.14.1'
         implementation 'com.google.android.exoplayer:extension-ima:2.14.1'
 
         implementation 'androidx.multidex:multidex:2.0.1'
