@@ -65,7 +65,7 @@ class VideoPlayer {
     this.vastTag = vastTag;
     this.imaAdsLoader = new ImaAdsLoader.Builder(context).build();
 
-    Uri uri = Uri.parse(dataSource);
+    //Uri uri = Uri.parse(dataSource);
     //exoPlayer = new SimpleExoPlayer.Builder(context).build();
 
     DataSource.Factory dataSourceFactory =
@@ -83,8 +83,8 @@ class VideoPlayer {
     imaAdsLoader.setPlayer(exoPlayer);
 
     MediaItem mediaItem = new MediaItem.Builder()
-      .setUri(uri)
-      .setAdTagUri(vastTag)
+      .setUri(Uri.parse(dataSource))
+      .setAdTagUri(Uri.parse(vastTag))
       //.setAdsConfiguration(new MediaItem.AdsConfiguration.Builder(vastTag).build())
       .build();
 
